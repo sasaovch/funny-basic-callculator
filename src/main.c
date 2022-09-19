@@ -23,10 +23,11 @@ int main(int argc, char* argv[])
     }
     if (*operation == 'c') {
         if (strcmp(operation, convertMode) == 0 || strcmp(operation, cMode) == 0) {
-            printf("Convert mode");
+            printf("Convert mode\n");
+            printf("%lf", convert(argc, argv));
         }
         if (strcmp(operation, changeBaseMode) == 0 || strcmp(operation, cbMode) == 0) {
-            printf("Change base mode");
+            printf("Change base mode\n");
         }
     }
     exit(EXIT_SUCCESS);

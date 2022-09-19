@@ -1,1 +1,1 @@
-double parseCommand(int, char**);
+double convert(int, char**);

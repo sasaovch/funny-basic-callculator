@@ -25,7 +25,7 @@ double parseCommand(int argc, char* argv[]) {
             {"exp", no_argument, 0, 'e'},
             {"ln", no_argument, 0, 'l'},
             {"abs", no_argument, 0, 'A'},
-            {"accuracy"}
+            {0, 0, 0, 0}
                     };
         int optIdx;
         double a, b;
