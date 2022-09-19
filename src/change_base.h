@@ -1,1 +1,1 @@
-double parseCommand(int, char**);
+char* changeBase(int, char**);

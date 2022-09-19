@@ -2,7 +2,7 @@
 
 
 all: 
-	gcc -g -o  bin/main  my_math.c convert.c main.c -lm
+	gcc -g -o  bin/main  my_math.c convert.c change_base.c main.c -lm
 
 test:
 	./main

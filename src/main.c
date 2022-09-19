@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     if (*operation == 'm') {
         if (strcmp(operation, mathMode) == 0 || strcmp(operation, mMode) == 0) {
             printf("Math mode \n");
-            printf("%lf", parseCommand(argc, argv));
+            printf("%lf", math(argc, argv));
         }
     }
     if (*operation == 'c') {
@@ -28,7 +28,8 @@ int main(int argc, char* argv[])
         }
         if (strcmp(operation, changeBaseMode) == 0 || strcmp(operation, cbMode) == 0) {
             printf("Change base mode\n");
+            printf("%s", changeBase(argc, argv));
         }
     }
-    exit(EXIT_SUCCESS);
+    // exit(EXIT_SUCCESS);
 }

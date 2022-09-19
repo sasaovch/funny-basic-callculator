@@ -3,7 +3,7 @@
 #include <getopt.h>
 #include <math.h>
 
-double parseCommand(int argc, char* argv[]) {
+double math(int argc, char* argv[]) {
     int c;
     while (1) {
         static struct option long_opt[] = {
