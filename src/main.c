@@ -141,8 +141,8 @@ static int run_math_with_options(int argc, char *argv[]) {
     int bin_op = -1;
     const struct option long_opt[] = {
         {"help",      no_argument, &mode,   'h'      },
-        {"unary",     no_argument, &mode,   1        },
-        {"binary",    no_argument, &mode,   2        },
+        {"unary",     no_argument, &mode,   UNARY    },
+        {"binary",    no_argument, &mode,   BINARY   },
         {"subract",   no_argument, &bin_op, MATH_SUB },
         {"add",       no_argument, &bin_op, MATH_ADD },
         {"multiply",  no_argument, &bin_op, MATH_MUL },
@@ -191,7 +191,7 @@ static int run_math_with_options(int argc, char *argv[]) {
         case 'u':
             mode = UNARY;
             break;
-        case 'n':
+        case 'b':
             mode = BINARY;
             break;
         case 'h':
