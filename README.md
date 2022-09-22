@@ -35,7 +35,7 @@
     | `--kmtom` | km -> mile  |
     | `--mtokm` | mile -> km  |
     | `--kgtop` | kg -> pound |
-    | `--kgtop` | pound -> kg |
+    | `--ptokg` | pound -> kg |
     | `--dtor`  | deg -> rad  |
     | `--rtod`  | rad -> rad  |
     | `--ctof`  | °C -> °F    |
