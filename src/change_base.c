@@ -1,85 +1,57 @@
+#include <getopt.h>
+#include <limits.h>
+#include <math.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <getopt.h>
-#include <math.h>
-#include <limits.h>
+#include <string.h>
 
-enum
-{
-GETOPT_TOBIN_CHAR = (CHAR_MIN - 2),
-GETOPT_FROMBIN_CHAR = (CHAR_MIN - 3),
-GETOPT_TOHEX_CHAR = (CHAR_MIN - 4),
-GETOPT_FROMHEX_CHAR = (CHAR_MIN - 5)
-};
+#include "change_base.h"
 
-static char* result;
+enum change_base_result changeBase(char *str, int from_radix, int to_radix, char **res) {
+    unsigned long val;
 
-char* changeBase(int argc, char* argv[]) {
-    int a, c, length;
-    long x;
-    while (1) {
-        static struct option long_opt[] = {
-            {"to-bin", required_argument, 0, GETOPT_TOBIN_CHAR},
-            {"tb", required_argument, 0, GETOPT_TOBIN_CHAR},
-            {"from-bin", required_argument, 0, GETOPT_FROMBIN_CHAR},
-            {"fb", required_argument, 0, GETOPT_FROMBIN_CHAR},
-            {"to-hex", required_argument, 0, GETOPT_TOHEX_CHAR},
-            {"tx", required_argument, 0, GETOPT_TOHEX_CHAR},
-            {"from-hex", required_argument, 0, GETOPT_FROMHEX_CHAR},
-            {"fx", required_argument, 0, GETOPT_FROMHEX_CHAR},
-            {"to", required_argument, 0, 't'},
-            {"from", required_argument, 0, 'f'},
-            {0,0,0,0}
-                    };
-        int optIdx;
-        if((c = getopt_long(argc, argv, "", long_opt, &optIdx)) == -1)
-        break;
-        switch(c){
-            case GETOPT_TOBIN_CHAR:
-                long long int binNumber = 0;
-                int power = 0;
-                long num = strtol(optarg, NULL, 10);
-                while (num > 0) {
-                    int rem = num % 2;
-                    long long int temp = pow(10, power);
-                    binNumber += rem * temp;
-                    power++;
-                    num /= 2;
-                }
-                length = snprintf(NULL, 0, "%lld", binNumber);
-                result = malloc(length + 1);
-                snprintf(result, length + 1, "%lld", binNumber);   
-                return result;
-            case GETOPT_FROMBIN_CHAR:
-                x = strtol(optarg, NULL, 2);
-                length = snprintf( NULL, 0, "%ld", x);
-                result = malloc(length + 1);
-                snprintf(result, length + 1, "%ld", x);   
-                return result;
-            case GETOPT_TOHEX_CHAR:
-                long int num_decimal, remainder, quotient ;
-                result = malloc(255);
-                a = 0; 
-                int var;
-                quotient = strtol(optarg, NULL, 10);
-                while(quotient != 0) {
-                var = quotient % 16 ;
-                if(var < 10)
-                var = var + 48 ;
-                else
-                var = var + 55 ;
-                result[a++]= var ;
-                quotient = quotient / 16;
-                }
-                return result;
-            case GETOPT_FROMHEX_CHAR:
-                x = strtol(optarg, NULL, 16);
-                length = snprintf( NULL, 0, "%ld", x);
-                result = malloc(length + 1);
-                snprintf(result, length + 1, "%ld", x);   
-                return result;
-            default:
-                return("Error");
-        }
+    enum change_base_result conv_res = convert_string_to_base_n(str, from_radix, &val);
+    if (!conv_res) { return conv_res; }
+
+    return convert_to_base_n_string(val, to_radix, res);
+}
+
+enum change_base_result convert_to_base_n_string(unsigned long val, int radix, char **res) {
+    // if radix is not supported
+    if (radix > 16 || radix < 2) { return INVALID_BASE; }
+
+    static const char int_to_char_map[] = {'0', '1', '2', '3', '4', '5', '6', '7',
+                                           '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+
+    // log2(val) / log2(radix) == log(val, radix)
+    int str_len = floor(log2(val) / log2(radix)) + 1;
+    *res = malloc(str_len + 1);
+    (*res)[str_len] = 0;
+
+    for (int i = str_len - 1; i > -1; i--) {
+        (*res)[i] = int_to_char_map[val % radix];
+        val /= radix;
     }
+
+    return OK;
+}
+
+enum change_base_result convert_string_to_base_n(const char *str, int radix, unsigned long *val) {
+    // if radix is not supported
+    if (radix > 16 || radix < 2) { return false; }
+
+    static const int char_to_int_map[] = {['0'] = 0, 1, 2,          3,  4,  5,  6,  7,
+                                          8,         9, ['a'] = 10, 11, 12, 13, 14, 15};
+
+    *val = 0;
+    unsigned long prev;
+    for (unsigned long i = 0; str[i]; i++) {
+        prev = *val;
+        *val *= radix;
+        *val += char_to_int_map[str[i]];
+        if (prev > *val) { return OVERFLOW; }
+    }
+
+    return true;
 }

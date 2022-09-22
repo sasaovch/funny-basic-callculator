@@ -1,1 +1,0 @@
-double math(int, char**);
