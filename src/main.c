@@ -107,7 +107,7 @@ static void print_convert_help() {
            "\t| `--kmtom` | km -> mile  |\n"
            "\t| `--mtokm` | mile -> km  |\n"
            "\t| `--kgtop` | kg -> pound |\n"
-           "\t| `--kgtop` | pound -> kg |\n"
+           "\t| `--ptokg` | pound -> kg |\n"
            "\t| `--dtor`  | deg -> rad  |\n"
            "\t| `--rtod`  | rad -> rad  |\n"
            "\t| `--ctof`  | °C -> °F    |\n"
