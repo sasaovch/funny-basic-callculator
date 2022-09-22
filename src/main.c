@@ -326,12 +326,17 @@ static int run_change_base_with_options(int argc, char *argv[]) {
     res = convert_string_to_base_n(line, from_base, &val);
     if (res == INVALID_BASE) {
         printf("Unable to convert: base must be an int value between 2 and 16 (both included)");
+        return 1;
     }
-    if (res == OVERFLOW) { printf("Unable to convert, entered value is too big"); }
+    if (res == OVERFLOW) {
+        printf("Unable to convert, entered value is too big");
+        return 1;
+    }
 
     res = convert_to_base_n_string(val, to_base, &res_str);
     if (res == INVALID_BASE) {
         printf("Unable to convert: base must be an int value between 2 and 16 (both included)");
+        return 1;
     }
 
     printf("%s\n", res_str);
