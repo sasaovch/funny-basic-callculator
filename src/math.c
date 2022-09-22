@@ -1,7 +1,4 @@
-#include <getopt.h>
 #include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #include "math.h"
 
@@ -23,8 +20,7 @@ double calc_math_unary(enum calc_math_unary_operations operation, double val) {
     }
 };
 
-double calc_math_binary(enum calc_math_binary_operations operation,
-                        double val_x, double val_y) {
+double calc_math_binary(enum calc_math_binary_operations operation, double val_x, double val_y) {
     switch (operation) {
     case MATH_SUB:
         return val_x - val_y;
