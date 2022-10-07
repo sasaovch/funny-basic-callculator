@@ -44,6 +44,7 @@ enum change_base_result convert_string_to_base_n(const char *str, int radix, uns
 
     *val = 0;
     unsigned long prev;
+    // TODO: Change condition to match only valid digits for choosen base
     for (unsigned long i = 0;
          str[i] && ((str[i] >= 0x30 && str[i] <= 0x3A) || (str[i] >= 0x61 && str[i] <= 0x66));
          i++) {
