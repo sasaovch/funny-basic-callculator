@@ -1,5 +1,5 @@
 # funny-basic-callculator
-*Additional task seminar 1 Programming Languages course*
+*Additional task seminar 1-2 Programming Languages course*
 
 ## Что оно может:
 
@@ -54,3 +54,11 @@
     | `--fx` `--from-hex` | `a`<sub>`16`</sub> -> `a`<sub>`10`</sub>    |
     | `-f` `--from`       | `a`<sub>*`arg`*</sub> -> `a`<sub>`10`</sub> |
     | `-t` `--to`         | `a`<sub>`10`</sub> -> `a`<sub>*`arg`*</sub> |
+
+- Парсинг строчки (*текста*) бизоном и лексом `io`, и вычисление того что в этой строчке написано
+
+    ```
+    -> 101_2 + 10 * 2
+
+    <- 25
+    ```

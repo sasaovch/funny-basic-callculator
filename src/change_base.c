@@ -1,6 +1,7 @@
 #include <limits.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "change_base.h"
@@ -43,7 +44,10 @@ enum change_base_result convert_string_to_base_n(const char *str, int radix, uns
 
     *val = 0;
     unsigned long prev;
-    for (unsigned long i = 0; str[i]; i++) {
+    // TODO: Change condition to match only valid digits for choosen base
+    for (unsigned long i = 0;
+         str[i] && ((str[i] >= 0x30 && str[i] <= 0x3A) || (str[i] >= 0x61 && str[i] <= 0x66));
+         i++) {
         prev = *val;
         *val *= radix;
         *val += char_to_int_map[(int)str[i]];

@@ -15,6 +15,7 @@ struct calc_mode {
     int (*run)(int, char *[]);
 };
 
+static int run_calc_io(int argc, char *argv[]);
 static int run_math_with_options(int argc, char *argv[]);
 static int run_convert_with_options(int argc, char *argv[]);
 static int run_change_base_with_options(int argc, char *argv[]);
@@ -24,6 +25,7 @@ static bool find_mode_by_name(char mode_name[], const struct calc_mode modes[],
 static void fprint_mode_names(FILE *__restrict __stream, const struct calc_mode modes[]);
 
 static const struct calc_mode modes[] = {
+    {" ",  "io",          run_calc_io                 },
     {"m",  "math",        run_math_with_options       },
     {"c",  "convert",     run_convert_with_options    },
     {"cb", "change-base", run_change_base_with_options},
@@ -130,6 +132,11 @@ static void print_cb_help() {
            "\t| -f --from       | uint base (argvalue) -> |\n"
            "\t| -t --to         | -> uint base (argvalue) |\n"
            "\t| --------------- | ----------------------- |\n");
+}
+
+static int run_calc_io(int argc, char *argv[]) {
+    extern int yyparse();
+    return yyparse();
 }
 
 #define UNARY 1
