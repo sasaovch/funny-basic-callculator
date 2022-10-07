@@ -1,5 +1,7 @@
 %{
-    #include "2.tab.h"
+	#include <stdlib.h>
+	#include <stdio.h>
+    #include "bison.tab.h"
 %}
 
 %option yylineno
@@ -8,11 +10,16 @@
 %%
 
 [/][/].*\n      ; // comment
-[0-9]+          { yylval = atoi(yytext);
-                  return NUM;
+[a-f0-9]+		{
+					yylval.integer = yytext;
+					return INT;
+				}
+[0-9]+\.[0-9]+  { 
+					yylval.num = strtod(yytext, NULL);
+                  	return NUM;
                 }
-[ \t\r]      ; // whitespace
-[\n]            {return RET;}
-.              { return *yytext; }
+[ \t\r]         ; // whitespace
+[\n]            { return RET; }
+.				{ return *yytext; }
 
 %%
