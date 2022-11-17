@@ -7,6 +7,7 @@
 
 #include "change_base.h"
 #include "convert.h"
+#include "math-lex.h"
 #include "math.h"
 
 struct calc_mode {
@@ -135,8 +136,13 @@ static void print_cb_help() {
 }
 
 static int run_calc_io(int argc, char *argv[]) {
-    extern int yyparse();
-    return yyparse();
+    size_t i = 0;
+    struct token t;
+    struct token *tks = read_tokens();
+    while ((t = tks[i++]).type != TKN_EOF) {
+        printf("%d : %s\n", t.type, t.value);
+    }
+    return 0;
 }
 
 #define UNARY 1
