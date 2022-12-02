@@ -245,23 +245,24 @@ static int run_math_with_options(int argc, char *argv[]) {
 static int run_convert_with_options(int argc, char *argv[]) {
 
     static struct option long_opt[] = {
-        {"kmtom", no_argument, 0, CONVERT_KMTOM},
-        {"mtokm", no_argument, 0, CONVERT_MTOKM},
-        {"kgtop", no_argument, 0, CONVERT_KGTOP},
-        {"ptokg", no_argument, 0, CONVERT_PTOKG},
-        {"dtor",  no_argument, 0, CONVERT_DTOR },
-        {"rtod",  no_argument, 0, CONVERT_RTOD },
-        {"ctof",  no_argument, 0, CONVERT_CTOF },
-        {"ftoc",  no_argument, 0, CONVERT_FTOC },
-        {"ctok",  no_argument, 0, CONVERT_CTOK },
-        {"ktoc",  no_argument, 0, CONVERT_KTOC },
-        {"ftok",  no_argument, 0, CONVERT_FTOK },
-        {"ktof",  no_argument, 0, CONVERT_KTOF },
-        {"help",  no_argument, 0, 'h'          },
+        {"kmtom", no_argument, NULL, CONVERT_KMTOM},
+        {"mtokm", no_argument, NULL, CONVERT_MTOKM},
+        {"kgtop", no_argument, NULL, CONVERT_KGTOP},
+        {"ptokg", no_argument, NULL, CONVERT_PTOKG},
+        {"dtor",  no_argument, NULL, CONVERT_DTOR },
+        {"rtod",  no_argument, NULL, CONVERT_RTOD },
+        {"ctof",  no_argument, NULL, CONVERT_CTOF },
+        {"ftoc",  no_argument, NULL, CONVERT_FTOC },
+        {"ctok",  no_argument, NULL, CONVERT_CTOK },
+        {"ktoc",  no_argument, NULL, CONVERT_KTOC },
+        {"ftok",  no_argument, NULL, CONVERT_FTOK },
+        {"ktof",  no_argument, NULL, CONVERT_KTOF },
+        {"help",  no_argument, NULL, 'h'          },
         {0,       0,           0, 0            }
     };
 
     int opt;
+    int choosen_opt = 0;
     int optIdx;
     while ((opt = getopt_long(argc, argv, "h", long_opt, &optIdx)) != -1) {
         switch (opt) {
@@ -269,16 +270,17 @@ static int run_convert_with_options(int argc, char *argv[]) {
             print_convert_help();
             return 0;
         default:
+            choosen_opt = opt;
             break;
         }
     }
 
-    if (opt == -1) {
-        fprintf(stdout, "Unable to convert, no argument specified");
+    if (!choosen_opt) {
+        fprintf(stdout, "Unable to convert, no argument specified\n");
         return 1;
     }
 
-    printf("%lf\n", convert(read_double(), opt));
+    printf("%lf\n", convert(read_double(), choosen_opt));
 
     return 0;
 }
@@ -323,7 +325,7 @@ static int run_change_base_with_options(int argc, char *argv[]) {
     }
 
     char *line;
-    size_t len = 0;
+    size_t len = 10;
     ssize_t lineSize = 0;
     lineSize = getline(&line, &len, stdin);
 
@@ -338,7 +340,7 @@ static int run_change_base_with_options(int argc, char *argv[]) {
         printf("Unable to convert: base must be an int value between 2 and 16 (both included)");
         return 1;
     }
-    if (res == OVERFLOW) {
+    if (res == CB_OVERFLOW) {
         printf("Unable to convert, entered value is too big");
         return 1;
     }

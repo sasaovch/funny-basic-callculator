@@ -51,7 +51,7 @@ enum change_base_result convert_string_to_base_n(const char *str, int radix, uns
         prev = *val;
         *val *= radix;
         *val += char_to_int_map[(int)str[i]];
-        if (prev > *val) { return OVERFLOW; }
+        if (prev > *val) { return CB_OVERFLOW; }
     }
 
     return OK;
